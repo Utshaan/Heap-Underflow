@@ -1,0 +1,73 @@
+{% extends "forum/base.html" %} {% block content %}
+
+<article class="media content-section">
+    <div class="internal-content-section">
+        <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}" />
+        <div class="media-body" style="width:-webkit-fill-available">
+            <div class="article-metadata">
+                <a class="mr-2" href="#">{{ object.author }}</a>
+                <small class="text-muted">{{ object.date_posted|date:"g:i a j/n/Y" }}</small>
+                <h2 class="article-title">{{ object.title }}</h2>
+                <p class="article-content">{{ object.content }}</p>
+            </div>
+        </div>
+        <div class="question-buttons">
+            {% if object.author == user %}
+            <a class="btn btn-outline-secondary btn-sm mt-1 mb-1" href="{% url 'question-update' object.id %}">🖊️</a>
+            <a class="btn btn-outline-danger btn-sm mt-1 mb-1" href="{% url 'question-delete' object.id %}">🗑</a>
+            {% endif %}
+        </div>
+    </div>
+</article>
+
+<article class="media content-section flex-row">
+    <!-- <img class="rounded-circle article-img" src="{{ user.profile.image.url }}" /> -->
+    <div class="media-body" style="width:100%">
+        <form class="article-metadata" method="POST">
+            {% csrf_token %}
+            <div class="internal-content-section">
+                <div class="media-body" style="width:-webkit-fill-available">
+                    <div class="article-metadata">
+                        <a class="mr-2" href="#">{{ user }}</a>
+                        <br>
+                        <input class="article-title" style="width:-webkit-fill-available" placeholder="Answer here"
+                            name="answer-content"></input>
+                    </div>
+                </div>
+                <div>
+                    <button class="btn btn-outline-info" type="submit">📤</button>
+                </div>
+            </div>
+        </form>
+</article>
+
+
+{% if answers.count != 0 %}
+<article>
+    <h3>Answers</h3>
+</article>
+
+
+<article class="content-section flex-column">
+    {% for answer in answers %}
+    <div class="content-section flex-row">
+        <!-- <img class="rounded-circle article-img" src="{{ answer.author.profile.image.url }}" /> -->
+        <div class="media-body" style="width:-webkit-fill-available">
+            <div class="article-metadata">
+                <a class="mr-2" href="#">{{ answer.author }}</a>
+                <small class="text-muted">{{ answer.date_posted|date:"g:i a j/n/Y" }}</small>
+                <p class="article-content">{{ answer.content }}</p>
+            </div>
+        </div>
+        <div class="question-buttons">
+            {% if answer.author == user %}
+            <a class="btn btn-outline-secondary btn-sm mt-1 mb-1"
+                href="{% url 'answer-delete' object.id answer.id %}">🗑️</a>
+            {% endif %}
+        </div>
+    </div>
+
+    {% endfor %}
+</article>
+{% endif %}
+{% endblock content %}

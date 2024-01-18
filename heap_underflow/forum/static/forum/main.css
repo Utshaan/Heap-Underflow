@@ -39,6 +39,13 @@ ul {
     border: 1px solid #dddddd;
     border-radius: 3px;
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.internal-content-section {
+    display: flex;
+    flex-direction: row;
 }
 
 .article-title {
@@ -47,7 +54,6 @@ ul {
 
 a.article-title:hover {
     color: #428bca;
-    text-decoration: none;
 }
 
 .article-content {
@@ -63,7 +69,6 @@ a.article-title:hover {
 .article-metadata {
     padding-bottom: 1px;
     margin-bottom: 4px;
-    border-bottom: 1px solid #e3e3e3;
 }
 
 .article-metadata a:hover {
@@ -75,6 +80,10 @@ a.article-title:hover {
     width: 25px;
     height: 25px;
     vertical-align: middle;
+}
+
+.question-buttons {
+    text-align: right;
 }
 
 .account-img {
