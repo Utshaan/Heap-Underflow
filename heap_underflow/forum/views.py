@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Answer
@@ -34,6 +34,8 @@ class QuestionDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(QuestionDetailView, self).get_context_data(**kwargs)
         context['answers'] = self.object.answer_set.order_by('-date_posted').all()
+        context['upvotes'] = self.object.crazy_set.all().count()
+        context['downvotes'] = self.object.eh_set.all().count()
         return context
 
 class QuestionCreateView(LoginRequiredMixin, CreateView):
@@ -81,5 +83,22 @@ class AnswerDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         question = get_object_or_404(Question, pk=self.kwargs.get('q_pk'))
         return question.get_absolute_url()
 
-def about(request):
-    return render(request, 'forum/about.html', {'title': 'About'})
+def upvote(request, pk):
+    if Question.objects.filter(id=pk).first().crazy_set.filter(owner=request.user).exists():
+        Question.objects.filter(id=pk).first().crazy_set.filter(owner=request.user).delete()
+    elif Question.objects.filter(id=pk).first().eh_set.filter(owner=request.user).exists():
+        Question.objects.filter(id=pk).first().eh_set.filter(owner=request.user).delete()
+        Question.objects.filter(id=pk).first().crazy_set.create(owner=request.user, question_id=pk)
+    else:
+        Question.objects.filter(id=pk).first().crazy_set.create(owner=request.user, question_id=pk)
+    return redirect('question-detail', pk)
+
+def downvote(request, pk):
+    if Question.objects.filter(id=pk).first().eh_set.filter(owner=request.user).exists():
+        Question.objects.filter(id=pk).first().eh_set.filter(owner=request.user).delete()
+    elif Question.objects.filter(id=pk).first().crazy_set.filter(owner=request.user).exists():
+        Question.objects.filter(id=pk).first().crazy_set.filter(owner=request.user).delete()
+        Question.objects.filter(id=pk).first().eh_set.create(owner=request.user, question_id=pk)
+    else:
+        Question.objects.filter(id=pk).first().eh_set.create(owner=request.user, question_id=pk)
+    return redirect('question-detail', pk)

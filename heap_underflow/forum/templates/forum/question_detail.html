@@ -2,7 +2,16 @@
 
 <article class="media content-section">
     <div class="internal-content-section">
-        <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}" />
+        <div>
+            <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}" />
+            <div>
+                <a>+{{ upvotes }}</a>
+                <a class="btn btn-outline-success btn-sm mt-1 mb-1" href="{% url 'question-upvote' object.id %}">⬆</a>
+                <br>
+                <a>-{{ downvotes }}</a>
+                <a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{% url 'question-downvote' object.id %}">⬇</a>
+            </div>
+        </div>
         <div class="media-body" style="width:-webkit-fill-available">
             <div class="article-metadata">
                 <a class="mr-2" href="#">{{ object.author }}</a>

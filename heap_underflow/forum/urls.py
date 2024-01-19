@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import AnswerDeleteView, QuestionListView, QuestionDetailView, QuestionCreateView, QuestionUpdateView, QuestionDeleteView
+from .views import AnswerDeleteView, QuestionListView, QuestionDetailView, QuestionCreateView, QuestionUpdateView, QuestionDeleteView, upvote, downvote
 from . import views
 
 urlpatterns = [
@@ -9,5 +9,6 @@ urlpatterns = [
     path('question/<int:pk>/update/', QuestionUpdateView.as_view(), name='question-update'),
     path('question/<int:pk>/delete/', QuestionDeleteView.as_view(), name='question-delete'),
     path('question/<int:q_pk>/answer/<int:a_pk>/delete/', AnswerDeleteView.as_view(), name='answer-delete'),
-    path('about/', views.about, name='forum-about'),
+    path('question/<int:pk>/upvote/', upvote, name='question-upvote'),
+    path('question/<int:pk>/downvote/', downvote, name='question-downvote'),
 ]
