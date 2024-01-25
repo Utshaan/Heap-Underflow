@@ -15,7 +15,7 @@
         <div class="media-body" style="width:-webkit-fill-available">
             <div class="article-metadata">
                 <a class="mr-2" href="#">{{ object.author }}</a>
-                <small class="text-muted">{{ object.date_posted|date:"g:i a j/n/Y" }}</small>
+                <small>{{ object.date_posted|date:"g:i a j/n/Y" }}</small>
                 <h2 class="article-title">{{ object.title }}</h2>
                 <p class="article-content">{{ object.content }}</p>
             </div>
@@ -64,7 +64,7 @@
         <div class="media-body" style="width:-webkit-fill-available">
             <div class="article-metadata">
                 <a class="mr-2" href="#">{{ answer.author }}</a>
-                <small class="text-muted">{{ answer.date_posted|date:"g:i a j/n/Y" }}</small>
+                <small>{{ answer.date_posted|date:"g:i a j/n/Y" }}</small>
                 <p class="article-content">{{ answer.content }}</p>
             </div>
         </div>

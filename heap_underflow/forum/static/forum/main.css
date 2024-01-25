@@ -50,6 +50,7 @@ ul {
 
 .article-title {
     color: #ffffff;
+    background-color: rgb(37, 38, 39);
 }
 
 a.article-title:hover {
